@@ -53,10 +53,10 @@ const downloadTemplateList = (selectTemplate) => {
         process.exit(1);
       }
       spinner.succeed("downloaded the template list!");
-      const tempDirPath = "/" + projectInfo.name;
+      const tempDirPath = "./" + projectInfo.name;
       const templateListPath = `${tempDirPath}/templates.json`;
-      const templateListContent = fs.readJSONSync(__dirname + templateListPath);
-      rimraf(__dirname + tempDirPath, () => {});
+      const templateListContent = fs.readJSONSync(templateListPath);
+      rimraf(tempDirPath, () => {});
 
       templates = templateListContent;
       selectTemplate && selectTemplate();
@@ -78,13 +78,10 @@ const downloadTemplate = (gitRepo) => {
         process.exit(1);
       }
       spinner.succeed("downloaded the template!");
-      const pkgPath = `/${projectInfo.name}/package.json`;
-      const pkgContent = fs.readJSONSync(__dirname + pkgPath);
+      const pkgPath = `./${projectInfo.name}/package.json`;
+      const pkgContent = fs.readJSONSync(pkgPath);
       const newPkgContent = { ...pkgContent, ...projectInfo };
-      fs.writeFileSync(
-        __dirname + pkgPath,
-        JSON.stringify(newPkgContent, null, 2)
-      );
+      fs.writeFileSync(pkgPath, JSON.stringify(newPkgContent, null, 2));
       console.log(
         chalk.green(
           `
