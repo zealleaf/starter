@@ -1,14 +1,13 @@
 {
   "name": "@leafvein/starter",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "a simple starter",
   "type": "module",
   "bin": {
-    "leaf": "./starter.mjs"
+    "leaf": "./starter.js"
   },
   "files": [
-    "starter.mjs",
-    "templates.mjs"
+    "starter.js"
   ],
   "keywords": [
     "zx",

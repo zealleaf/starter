@@ -28,14 +28,10 @@ const help = argv.help;
 
 // Prepositive judgment
 if (!create && !version && !help) {
-  console.warn(
-    chalk.yellowBright(
-      `
-unknown command!!!
-`
-    )
+  console.log(
+    chalk.yellowBright("unknown command!!!"),
+    chalk.blueBright("\nType leaf --help to see more commands!")
   );
-  console.log(chalk.blueBright("Type leaf --help to see more commands!"));
   process.exit(1);
 }
 
@@ -43,13 +39,13 @@ const downloadTemplateList = (selectTemplate) => {
   const spinner = ora();
   spinner.start("downloading the template list...");
   download(
-    `direct:https://github.com/zealleaf/starter-template-list.git#main`,
+    "direct:https://github.com/zealleaf/starter-template-list.git#main",
     projectInfo.name,
     { clone: true },
     (err) => {
       if (err) {
         spinner.fail();
-        console.error(chalk.redBright(err));
+        console.log(chalk.redBright(err));
         process.exit(1);
       }
       spinner.succeed("downloaded the template list!");
@@ -74,7 +70,7 @@ const downloadTemplate = (gitRepo) => {
     (err) => {
       if (err) {
         spinner.fail();
-        console.error(chalk.redBright(err));
+        console.log(chalk.redBright(err));
         process.exit(1);
       }
       spinner.succeed("downloaded the template!");
@@ -83,13 +79,7 @@ const downloadTemplate = (gitRepo) => {
       const newPkgContent = { ...pkgContent, ...projectInfo };
       fs.writeFileSync(pkgPath, JSON.stringify(newPkgContent, null, 2));
       console.log(
-        chalk.green(
-          `
-cd ${projectInfo.name}
-npm install
-npm run dev
-`
-        )
+        chalk.green(`cd ${projectInfo.name}\nnpm install\nnpm run dev`)
       );
     }
   );
@@ -128,23 +118,20 @@ const selectTemplate = async () => {
       projectInfo.description = await question("Project description: ");
       downloadTemplateList(selectTemplate);
     } else {
-      console.error(chalk.redBright("project has existed !!! enter again:"));
+      console.log(chalk.redBright("project has existed !!! enter again:"));
       main();
     }
   }
 
   if (version) {
     const v = fs.readJSONSync(__dirname + "/package.json").version;
-    console.log(chalk.cyan("v" + v));
+    console.log(chalk.green("v" + v));
   }
 
   if (help) {
     console.log(
-      chalk.redBright(
-        `
---create: You can generate a project from the provided template!
---version: View current version.
-`
+      chalk.cyanBright(
+        "--create: You can generate a project from the provided template!\n--version: View current version."
       )
     );
   }
