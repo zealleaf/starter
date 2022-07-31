@@ -1,7 +1,8 @@
 {
   "name": "@leafvein/starter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "a simple starter",
+  "type": "module",
   "bin": {
     "leaf": "./starter.mjs"
   },
@@ -29,6 +30,7 @@
     "download-git-repo": "^3.0.2",
     "inquirer": "^8.2.4",
     "ora": "^6.1.0",
+    "rimraf": "^3.0.2",
     "zx": "^6.1.0"
   }
 }

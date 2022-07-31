@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import { argv, chalk, question, fs, path } from "zx";
+import rimraf from "rimraf";
 import { fileURLToPath } from "url";
 import inquirer from "inquirer";
 import ora from "ora";
 import download from "download-git-repo";
-import templates from "./templates.mjs";
 
 // Let esm support __filename and __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -18,12 +18,52 @@ const projectInfo = {
   author: "",
 };
 
+// templates
+let templates = {};
+
 // command
 const create = argv.create;
 const version = argv.version;
 const help = argv.help;
 
-// functions
+// Prepositive judgment
+if (!create && !version && !help) {
+  console.warn(
+    chalk.yellowBright(
+      `
+unknown command!!!
+`
+    )
+  );
+  console.log(chalk.blueBright("Type leaf --help to see more commands!"));
+  process.exit(1);
+}
+
+const downloadTemplateList = (selectTemplate) => {
+  const spinner = ora();
+  spinner.start("downloading the template list...");
+  download(
+    `direct:https://github.com/zealleaf/starter-template-list.git#main`,
+    projectInfo.name,
+    { clone: true },
+    (err) => {
+      if (err) {
+        spinner.fail();
+        console.error(chalk.redBright(err));
+        process.exit(1);
+      }
+      spinner.succeed("downloaded the template list!");
+      const tempDirPath = "/" + projectInfo.name;
+      const templateListPath = `${tempDirPath}/templates.json`;
+      const templateListContent = fs.readJSONSync(__dirname + templateListPath);
+      rimraf(__dirname + tempDirPath, () => {});
+
+      templates = templateListContent;
+      selectTemplate && selectTemplate();
+    }
+  );
+};
+
 const downloadTemplate = (gitRepo) => {
   const spinner = ora();
   spinner.start("downloading the template...");
@@ -38,10 +78,13 @@ const downloadTemplate = (gitRepo) => {
         process.exit(1);
       }
       spinner.succeed("downloaded the template!");
-      const pkgPath = `./${projectInfo.name}/package.json`;
-      const pkgContent = fs.readJSONSync(pkgPath);
+      const pkgPath = `/${projectInfo.name}/package.json`;
+      const pkgContent = fs.readJSONSync(__dirname + pkgPath);
       const newPkgContent = { ...pkgContent, ...projectInfo };
-      fs.writeFileSync(pkgPath, JSON.stringify(newPkgContent, null, 2));
+      fs.writeFileSync(
+        __dirname + pkgPath,
+        JSON.stringify(newPkgContent, null, 2)
+      );
       console.log(
         chalk.green(
           `
@@ -76,7 +119,8 @@ const selectTemplate = async () => {
   downloadTemplate(gitRepo);
 };
 
-(async function () {
+// main
+(async function main() {
   if (create) {
     const name = await question("Project name: ");
     if (name) {
@@ -85,7 +129,7 @@ const selectTemplate = async () => {
     if (!fs.existsSync(projectInfo.name)) {
       projectInfo.author = await question("Project author: ");
       projectInfo.description = await question("Project description: ");
-      selectTemplate();
+      downloadTemplateList(selectTemplate);
     } else {
       console.error(chalk.redBright("project has existed !!! enter again:"));
       main();
@@ -108,15 +152,3 @@ const selectTemplate = async () => {
     );
   }
 })();
-
-if (!create && !version && !help) {
-  console.warn(
-    chalk.yellowBright(
-      `
-unknown command!!!
-`
-    )
-  );
-  console.log(chalk.blueBright("Type leaf --help to see more commands!"));
-  process.exit(1);
-}
