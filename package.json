@@ -2,6 +2,22 @@
   "name": "@leafvein/starter",
   "version": "0.2.2",
   "description": "a simple starter",
+  "keywords": [
+    "zx",
+    "cli",
+    "vite",
+    "react"
+  ],
+  "homepage": "https://github.com/zealleaf/starter#readme",
+  "bugs": {
+    "url": "https://github.com/zealleaf/starter/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zealleaf/starter.git"
+  },
+  "license": "MIT",
+  "author": "zealleaf",
   "type": "module",
   "bin": {
     "leaf": "./starter.js"
@@ -9,27 +25,17 @@
   "files": [
     "starter.js"
   ],
-  "keywords": [
-    "zx",
-    "cli",
-    "vite",
-    "react"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zealleaf/starter.git"
+  "scripts": {
+    "release": "bumpp"
   },
-  "author": "zealleaf",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zealleaf/starter/issues"
-  },
-  "homepage": "https://github.com/zealleaf/starter#readme",
   "dependencies": {
     "download-git-repo": "^3.0.2",
     "inquirer": "^8.2.4",
     "ora": "^6.1.0",
     "rimraf": "^3.0.2",
     "zx": "^6.1.0"
+  },
+  "devDependencies": {
+    "bumpp": "^8.2.1"
   }
 }
