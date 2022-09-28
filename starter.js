@@ -30,7 +30,9 @@ const help = argv.help;
 if (!create && !version && !help) {
   console.log(
     chalk.yellowBright("unknown command!!!"),
-    chalk.blueBright("\nType leaf --help to see more commands!")
+    chalk.blueBright(
+      "\nType leaf --help to see more commands!"
+    )
   );
   process.exit(1);
 }
@@ -41,7 +43,6 @@ const downloadTemplateList = (selectTemplate) => {
   download(
     "direct:https://github.com/zealleaf/starter-template-list.git#main",
     projectInfo.name,
-    { clone: true },
     (err) => {
       if (err) {
         spinner.fail();
@@ -51,7 +52,9 @@ const downloadTemplateList = (selectTemplate) => {
       spinner.succeed("downloaded the template list!");
       const tempDirPath = "./" + projectInfo.name;
       const templateListPath = `${tempDirPath}/templates.json`;
-      const templateListContent = fs.readJSONSync(templateListPath);
+      const templateListContent = fs.readJSONSync(
+        templateListPath
+      );
       rimraf(tempDirPath, () => {});
 
       templates = templateListContent;
@@ -66,7 +69,6 @@ const downloadTemplate = (gitRepo) => {
   download(
     `direct:${templates[gitRepo].url}`,
     projectInfo.name,
-    { clone: true },
     (err) => {
       if (err) {
         spinner.fail();
@@ -76,10 +78,18 @@ const downloadTemplate = (gitRepo) => {
       spinner.succeed("downloaded the template!");
       const pkgPath = `./${projectInfo.name}/package.json`;
       const pkgContent = fs.readJSONSync(pkgPath);
-      const newPkgContent = { ...pkgContent, ...projectInfo };
-      fs.writeFileSync(pkgPath, JSON.stringify(newPkgContent, null, 2));
+      const newPkgContent = {
+        ...pkgContent,
+        ...projectInfo,
+      };
+      fs.writeFileSync(
+        pkgPath,
+        JSON.stringify(newPkgContent, null, 2)
+      );
       console.log(
-        chalk.green(`cd ${projectInfo.name}\nnpm install\nnpm run dev`)
+        chalk.green(
+          `cd ${projectInfo.name}\nnpm install\nnpm run dev`
+        )
       );
     }
   );
@@ -114,17 +124,27 @@ const selectTemplate = async () => {
       projectInfo.name = name;
     }
     if (!fs.existsSync(projectInfo.name)) {
-      projectInfo.author = await question("Project author: ");
-      projectInfo.description = await question("Project description: ");
+      projectInfo.author = await question(
+        "Project author: "
+      );
+      projectInfo.description = await question(
+        "Project description: "
+      );
       downloadTemplateList(selectTemplate);
     } else {
-      console.log(chalk.redBright("project has existed !!! enter again:"));
+      console.log(
+        chalk.redBright(
+          "project has existed !!! enter again:"
+        )
+      );
       main();
     }
   }
 
   if (version) {
-    const v = fs.readJSONSync(__dirname + "/package.json").version;
+    const v = fs.readJSONSync(
+      __dirname + "/package.json"
+    ).version;
     console.log(chalk.green("v" + v));
   }
 
