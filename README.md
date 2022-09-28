@@ -25,3 +25,7 @@ leaf [...options]
 ### Template List
 
 [template list](https://github.com/zealleaf/starter-template-list)
+
+## License
+
+MIT
