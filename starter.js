@@ -43,6 +43,7 @@ const downloadTemplateList = (selectTemplate) => {
   download(
     "direct:https://github.com/zealleaf/starter-template-list.git#main",
     projectInfo.name,
+    { clone: true },
     (err) => {
       if (err) {
         spinner.fail();
@@ -69,6 +70,7 @@ const downloadTemplate = (gitRepo) => {
   download(
     `direct:${templates[gitRepo].url}`,
     projectInfo.name,
+    { clone: true },
     (err) => {
       if (err) {
         spinner.fail();
