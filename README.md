@@ -2,7 +2,7 @@
 
 > A simple project launcher for pulling templates
 
-![npm version](https://img.shields.io/npm/v/@leafvein/starter)
+[![npm version](https://img.shields.io/npm/v/@leafvein/starter)](https://www.npmjs.com/package/@leafvein/starter)
 
 ## Installation
 
