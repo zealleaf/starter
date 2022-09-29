@@ -2,6 +2,8 @@
 
 > A simple project launcher for pulling templates
 
+![npm version](https://img.shields.io/npm/v/@leafvein/starter)
+
 ## Installation
 
 ```bash
