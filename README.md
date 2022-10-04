@@ -1,6 +1,10 @@
-# Starter
+# [ARCHIVED] starter
 
-> A simple project launcher for pulling templates
+This repo has moved to [ft](https://github.com/zealleaf/ft).
+
+<hr>
+
+A simple project launcher for pulling templates
 
 [![npm version](https://img.shields.io/npm/v/@leafvein/starter)](https://www.npmjs.com/package/@leafvein/starter)
 
